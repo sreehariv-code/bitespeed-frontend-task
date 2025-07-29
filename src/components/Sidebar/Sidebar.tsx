@@ -5,7 +5,7 @@ import { SIDEBAR_WIDTH } from "../../utils/constants";
 
 interface SidebarProps {
   selectedNode: FlowNode | null;
-  onUpdateNode: (nodeId: string, data: any) => void;
+  onUpdateNode: (nodeId: string, data: Record<string, unknown>) => void;
   onNodeSelect: (node: FlowNode | null) => void;
   onDragStart: (event: React.DragEvent, nodeType: string) => void;
 }

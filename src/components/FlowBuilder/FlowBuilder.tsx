@@ -1,5 +1,9 @@
 import { useCallback, useRef, useMemo } from "react";
-import { ReactFlowProvider, type Node } from "@xyflow/react";
+import {
+  ReactFlowProvider,
+  type Node,
+  type OnEdgesChange,
+} from "@xyflow/react";
 import { FlowCanvas } from "./FlowCanvas";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { Header } from "../Header/Header";
@@ -99,7 +103,7 @@ export const FlowBuilder = () => {
               nodes={nodes}
               edges={edges}
               onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
+              onEdgesChange={onEdgesChange as OnEdgesChange}
               onConnect={onConnect}
               onNodeClick={onNodeClick}
               onPaneClick={onPaneClick}

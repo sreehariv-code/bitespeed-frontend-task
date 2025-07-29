@@ -1,8 +1,13 @@
 import { memo } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
 import { MessageCircle } from "lucide-react";
+import type { MessageNodeData } from "../../types/flow";
 
-export const MessageNode = memo(({ data, selected }: NodeProps) => {
+interface MessageNodeProps extends NodeProps<MessageNodeData> {
+  data: MessageNodeData;
+}
+
+export const MessageNode = memo(({ data, selected }: MessageNodeProps) => {
   return (
     <div
       className={`px-4 py-2 shadow-md rounded-md bg-white border-2 transition-colors

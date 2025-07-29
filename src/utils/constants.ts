@@ -1,9 +1,11 @@
+import type { Node } from "@xyflow/react";
+
 export const NODE_TYPES = {
   MESSAGE: "message",
   START: "start",
 } as const;
 
-export const INITIAL_NODES = [
+export const INITIAL_NODES: Node[] = [
   {
     id: "start-1",
     type: "start",

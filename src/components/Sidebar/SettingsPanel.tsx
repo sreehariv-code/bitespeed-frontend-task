@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
-import { type FlowNode } from "../../types/flow";
+import { type FlowNode, type MessageNodeData } from "../../types/flow";
 import { ArrowLeft } from "lucide-react";
 
 interface SettingsPanelProps {
   selectedNode: FlowNode | null;
-  onUpdateNode: (nodeId: string, data: any) => void;
+  onUpdateNode: (nodeId: string, data: Record<string, unknown>) => void;
   onClose: () => void;
 }
 
@@ -19,7 +19,8 @@ export const SettingsPanel = ({
 
   useEffect(() => {
     if (selectedNode && selectedNode.type === "message") {
-      setMessage(selectedNode.data.message || "");
+      const messageData = selectedNode.data as MessageNodeData;
+      setMessage(messageData.message || "");
     }
   }, [selectedNode]);
 
@@ -40,6 +41,7 @@ export const SettingsPanel = ({
         <button
           onClick={onClose}
           className="p-1 hover:bg-gray-100 rounded mr-2"
+          aria-label="Go back"
         >
           <ArrowLeft className="w-4 h-4" />
         </button>

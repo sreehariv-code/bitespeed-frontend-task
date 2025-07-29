@@ -25,6 +25,7 @@ export const useFlowBuilder = () => {
   const addNode = useCallback(
     (type: string, position: { x: number; y: number }) => {
       const id = `${type}-${Date.now()}`;
+
       const newNode: Node = {
         id,
         type,
@@ -32,7 +33,7 @@ export const useFlowBuilder = () => {
         data: {
           id,
           label: type === "message" ? "Message" : "Start",
-          message: type === "message" ? "Enter your message here..." : "",
+          ...(type === "message" && { message: "Enter your message here..." }),
         },
       };
       setNodes((nds) => [...nds, newNode]);
@@ -41,7 +42,7 @@ export const useFlowBuilder = () => {
   );
 
   const updateNodeData = useCallback(
-    (nodeId: string, data: any) => {
+    (nodeId: string, data: Record<string, unknown>) => {
       setNodes((nds) =>
         nds.map((node) =>
           node.id === nodeId
