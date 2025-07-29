@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
-import { type FlowNode, type MessageNodeData } from "../../types/flow";
+import { type FlowNode } from "../../types/flow";
 import { ArrowLeft } from "lucide-react";
 
 interface SettingsPanelProps {
@@ -19,7 +19,7 @@ export const SettingsPanel = ({
 
   useEffect(() => {
     if (selectedNode && selectedNode.type === "message") {
-      const messageData = selectedNode.data as MessageNodeData;
+      const messageData = selectedNode.data as { message?: string };
       setMessage(messageData.message || "");
     }
   }, [selectedNode]);
