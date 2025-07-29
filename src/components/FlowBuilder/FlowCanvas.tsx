@@ -15,8 +15,10 @@ import "@xyflow/react/dist/style.css";
 import { MessageNode, StartNode } from "../Nodes";
 
 const nodeTypes: NodeTypes = {
-  message: MessageNode,
-  start: StartNode,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  message: MessageNode as any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  start: StartNode as any,
 };
 
 interface FlowCanvasProps {
