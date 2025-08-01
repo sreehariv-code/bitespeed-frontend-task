@@ -8,24 +8,42 @@ export const StartNode = memo(({ data, selected }: NodeProps) => {
 
   return (
     <div
-      className={`px-4 py-2 shadow-md rounded-md bg-green-50 border-2 transition-colors
-                      ${selected ? "border-blue-500" : "border-green-200"}`}
+      className={`shadow-md rounded-md bg-white dark:bg-gray-800 border-2 transition-colors overflow-hidden
+                      ${
+                        selected
+                          ? "border-blue-500"
+                          : "border-gray-200 dark:border-gray-600"
+                      }`}
     >
-      <div className="flex items-center">
-        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-200 mr-2">
-          <Play className="w-4 h-4 text-green-700" />
+      {/* Target Handle - Left Side */}
+      <Handle
+        type="target"
+        position={Position.Left}
+        className="w-3 h-3 !bg-gray-400 dark:!bg-gray-500"
+      />
+
+      {/* Header Section */}
+      <div className="bg-green-100 dark:bg-green-900 px-3 py-1 flex items-center">
+        <div className="flex items-center justify-center w-5 h-5 rounded-full bg-green-200 dark:bg-green-700 mr-2">
+          <Play className="w-3 h-3 text-green-700 dark:text-green-300" />
         </div>
-        <div className="ml-2">
-          <div className="text-lg font-bold text-green-800">
-            {nodeData.label}
-          </div>
+        <span className="text-xs font-medium text-green-800 dark:text-green-200">
+          {nodeData.label}
+        </span>
+      </div>
+
+      {/* Body Section */}
+      <div className="px-4 py-3 bg-white dark:bg-gray-800">
+        <div className="text-sm text-gray-600 dark:text-gray-300">
+          Conversation entry point
         </div>
       </div>
 
+      {/* Source Handle - Right Side */}
       <Handle
         type="source"
-        position={Position.Bottom}
-        className="w-16 !bg-teal-500"
+        position={Position.Right}
+        className="w-3 h-3 !bg-gray-400 dark:!bg-gray-500"
       />
     </div>
   );

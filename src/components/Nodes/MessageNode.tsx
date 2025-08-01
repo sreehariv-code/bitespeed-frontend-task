@@ -8,33 +8,42 @@ export const MessageNode = memo(({ data, selected }: NodeProps) => {
 
   return (
     <div
-      className={`px-4 py-2 shadow-md rounded-md bg-white border-2 transition-colors
-                      ${selected ? "border-blue-500" : "border-gray-200"}`}
+      className={`shadow-md rounded-md bg-white dark:bg-gray-800 border-2 transition-colors overflow-hidden
+                      ${
+                        selected
+                          ? "border-blue-500"
+                          : "border-gray-200 dark:border-gray-600"
+                      }`}
     >
+      {/* Target Handle - Left Side */}
       <Handle
         type="target"
-        position={Position.Top}
-        className="w-16 !bg-teal-500"
+        position={Position.Left}
+        className="w-3 h-3 !bg-gray-400 dark:!bg-gray-500"
       />
 
-      <div className="flex items-center">
-        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100 mr-2">
-          <MessageCircle className="w-4 h-4 text-green-600" />
+      {/* Header Section */}
+      <div className="bg-blue-100 dark:bg-blue-900 px-3 py-1 flex items-center">
+        <div className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-200 dark:bg-blue-700 mr-2">
+          <MessageCircle className="w-3 h-3 text-blue-700 dark:text-blue-300" />
         </div>
-        <div className="ml-2">
-          <div className="text-lg font-bold text-gray-800">
-            {nodeData.label}
-          </div>
-          <div className="text-gray-500 text-sm truncate max-w-32">
-            {nodeData.message}
-          </div>
+        <span className="text-xs font-medium text-green-800 dark:text-green-200">
+          {nodeData.label}
+        </span>
+      </div>
+
+      {/* Body Section */}
+      <div className="px-4 py-3 bg-white dark:bg-gray-800">
+        <div className="text-sm text-gray-800 dark:text-gray-200">
+          {nodeData.message}
         </div>
       </div>
 
+      {/* Source Handle - Right Side */}
       <Handle
         type="source"
-        position={Position.Bottom}
-        className="w-16 !bg-teal-500"
+        position={Position.Right}
+        className="w-3 h-3 !bg-gray-400 dark:!bg-gray-500"
       />
     </div>
   );

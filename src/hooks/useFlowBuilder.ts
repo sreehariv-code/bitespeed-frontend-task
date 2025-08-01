@@ -2,6 +2,7 @@ import {
   addEdge,
   type Connection,
   type Node,
+  type Edge,
   useEdgesState,
   useNodesState,
 } from "@xyflow/react";
@@ -39,6 +40,21 @@ export const useFlowBuilder = () => {
       setNodes((nds) => [...nds, newNode]);
     },
     [setNodes]
+  );
+
+  const deleteNode = useCallback(
+    (nodeId: string) => {
+      // Remove the node
+      setNodes((nds) => nds.filter((node) => node.id !== nodeId));
+
+      // Remove all edges connected to this node
+      setEdges((eds) =>
+        eds.filter(
+          (edge: Edge) => edge.source !== nodeId && edge.target !== nodeId
+        )
+      );
+    },
+    [setNodes, setEdges]
   );
 
   const updateNodeData = useCallback(
@@ -88,6 +104,7 @@ export const useFlowBuilder = () => {
     onEdgesChange,
     onConnect,
     addNode,
+    deleteNode,
     updateNodeData,
     validateFlow,
     saveFlow,

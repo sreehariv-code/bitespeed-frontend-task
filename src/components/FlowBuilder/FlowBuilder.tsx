@@ -3,6 +3,7 @@ import {
   ReactFlowProvider,
   type Node,
   type OnEdgesChange,
+  useReactFlow,
 } from "@xyflow/react";
 import { FlowCanvas } from "./FlowCanvas";
 import { Sidebar } from "../Sidebar/Sidebar";
@@ -10,7 +11,8 @@ import { Header } from "../Header/Header";
 import { useFlowBuilder } from "../../hooks/useFlowBuilder";
 import { type FlowNode } from "../../types/flow";
 
-export const FlowBuilder = () => {
+// Separate component to use useReactFlow hook
+const FlowBuilderContent = () => {
   const {
     nodes,
     edges,
@@ -20,12 +22,14 @@ export const FlowBuilder = () => {
     onEdgesChange,
     onConnect,
     addNode,
+    deleteNode,
     updateNodeData,
     validateFlow,
     saveFlow,
   } = useFlowBuilder();
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const { screenToFlowPosition } = useReactFlow();
 
   const onDragStart = useCallback(
     (event: React.DragEvent, nodeType: string) => {
@@ -39,20 +43,18 @@ export const FlowBuilder = () => {
     (event: React.DragEvent) => {
       event.preventDefault();
 
-      const reactFlowBounds = reactFlowWrapper.current?.getBoundingClientRect();
-      if (!reactFlowBounds) return;
-
       const type = event.dataTransfer.getData("application/reactflow");
       if (!type) return;
 
-      const position = {
-        x: event.clientX - reactFlowBounds.left - 100,
-        y: event.clientY - reactFlowBounds.top - 50,
-      };
+      // Use React Flow's built-in method to convert screen coordinates to flow coordinates
+      const position = screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
 
       addNode(type, position);
     },
-    [addNode]
+    [addNode, screenToFlowPosition]
   );
 
   const onDragOver = useCallback((event: React.DragEvent) => {
@@ -90,30 +92,38 @@ export const FlowBuilder = () => {
       />
 
       <div className="flex-1 flex">
-        <ReactFlowProvider>
-          <Sidebar
-            selectedNode={selectedNode}
-            onUpdateNode={updateNodeData}
-            onNodeSelect={setSelectedNode}
-            onDragStart={onDragStart}
+        <div ref={reactFlowWrapper} className="flex-1">
+          <FlowCanvas
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange as OnEdgesChange}
+            onConnect={onConnect}
+            onNodeClick={onNodeClick}
+            onPaneClick={onPaneClick}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            disconnectedNodeIds={disconnectedNodeIds}
+            onDeleteNode={deleteNode}
           />
+        </div>
 
-          <div ref={reactFlowWrapper} className="flex-1">
-            <FlowCanvas
-              nodes={nodes}
-              edges={edges}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange as OnEdgesChange}
-              onConnect={onConnect}
-              onNodeClick={onNodeClick}
-              onPaneClick={onPaneClick}
-              onDrop={onDrop}
-              onDragOver={onDragOver}
-              disconnectedNodeIds={disconnectedNodeIds}
-            />
-          </div>
-        </ReactFlowProvider>
+        <Sidebar
+          selectedNode={selectedNode}
+          onUpdateNode={updateNodeData}
+          onNodeSelect={setSelectedNode}
+          onDragStart={onDragStart}
+          nodes={nodes as FlowNode[]}
+        />
       </div>
     </div>
+  );
+};
+
+export const FlowBuilder = () => {
+  return (
+    <ReactFlowProvider>
+      <FlowBuilderContent />
+    </ReactFlowProvider>
   );
 };

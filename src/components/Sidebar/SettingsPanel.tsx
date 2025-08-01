@@ -40,12 +40,14 @@ export const SettingsPanel = ({
       <div className="flex items-center mb-4">
         <button
           onClick={onClose}
-          className="p-1 hover:bg-gray-100 rounded mr-2"
+          className="p-1 hover:bg-blue-100 dark:hover:bg-gray-600 rounded mr-2 text-blue-600 dark:text-gray-400"
           aria-label="Go back"
         >
           <ArrowLeft className="w-4 h-4" />
         </button>
-        <h3 className="text-sm font-medium text-gray-700">Message Settings</h3>
+        <h3 className="text-sm font-medium text-blue-900 dark:text-gray-200">
+          Message Settings
+        </h3>
       </div>
 
       <div className="space-y-4">
