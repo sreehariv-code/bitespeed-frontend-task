@@ -47,7 +47,7 @@ For more details about the assignment requirements, see the [BiteSpeed Frontend 
 
 ```bash
 git clone <repository-url>
-cd bitspeed-frontend-task
+cd bitespeed-frontend-task
 ```
 
 2. Install dependencies:
